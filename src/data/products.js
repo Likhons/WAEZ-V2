@@ -1,0 +1,20 @@
+export const PRODUCTS = [
+  { id: 'form-tee-001', name: 'Form Tee 001', price: 1490, cat: 'tees', shape: 'tee', bg: 'var(--taupe-1)', mark: '#141311', badge: null, sizes: ['XS', 'S', 'M', 'L', 'XL'], oos: [], colors: ['#141311', '#DED2BE'], colorNames: ['Black', 'Beige'], rating: 4.6, reviewCount: 128, tags: ['tee', 't-shirt', 'essential', 'cotton'] },
+  { id: 'core-overshirt', name: 'Core Overshirt', price: 2490, cat: 'outerwear', shape: 'shirt', bg: 'var(--taupe-2)', mark: '#EFE9DC', badge: 'new', sizes: ['S', 'M', 'L', 'XL'], oos: ['XL'], colors: ['#C9BCA4', '#141311'], colorNames: ['Taupe', 'Black'], rating: 4.8, reviewCount: 41, tags: ['overshirt', 'shirt', 'jacket', 'outerwear', 'taupe'] },
+  { id: 'relaxed-polo', name: 'Relaxed Polo', price: 1890, cat: 'tees', shape: 'polo', bg: 'var(--taupe-3)', mark: '#141311', badge: null, sizes: ['XS', 'S', 'M', 'L', 'XL'], oos: [], colors: ['#141311', '#7A756A'], colorNames: ['Black', 'Stone'], rating: 4.3, reviewCount: 76, tags: ['polo', 'tee', 'collar', 'casual'] },
+  { id: 'heavyweight-tee', name: 'Heavyweight Tee', price: 1690, cat: 'tees', shape: 'tee', bg: 'var(--taupe-4)', mark: '#EFE9DC', badge: 'low', sizes: ['S', 'M', 'L'], oos: [], colors: ['#B9AF9C', '#141311'], colorNames: ['Sand', 'Black'], rating: 4.7, reviewCount: 203, tags: ['tee', 't-shirt', 'heavyweight', 'cotton'] },
+  { id: 'structured-hoodie', name: 'Structured Hoodie', price: 3290, cat: 'outerwear', shape: 'hoodie', bg: 'var(--taupe-6)', mark: '#141311', badge: 'new', sizes: ['S', 'M', 'L', 'XL'], oos: [], colors: ['#141311', '#D2C6AE'], colorNames: ['Black', 'Clay'], rating: 4.9, reviewCount: 19, tags: ['hoodie', 'outerwear', 'sweatshirt'] },
+  { id: 'wide-trouser', name: 'Wide Trouser', price: 2790, cat: 'bottoms', shape: 'trouser', bg: 'var(--taupe-5)', mark: '#141311', badge: null, sizes: ['XS', 'S', 'M', 'L'], oos: ['XS'], colors: ['#141311'], colorNames: ['Black'], rating: 4.4, reviewCount: 57, tags: ['trouser', 'pants', 'bottoms', 'wide leg'] },
+  { id: 'boxy-jacket', name: 'Boxy Jacket', price: 4290, cat: 'outerwear', shape: 'jacket', bg: 'var(--taupe-1)', mark: '#141311', badge: 'low', sizes: ['S', 'M', 'L', 'XL'], oos: [], colors: ['#DED2BE', '#141311'], colorNames: ['Beige', 'Black'], rating: 4.5, reviewCount: 34, tags: ['jacket', 'outerwear', 'boxy'] },
+  { id: 'ribbed-crew', name: 'Ribbed Crew', price: 2190, cat: 'tees', shape: 'crew', bg: 'var(--taupe-2)', mark: '#EFE9DC', badge: null, sizes: ['XS', 'S', 'M', 'L', 'XL'], oos: [], colors: ['#C9BCA4'], colorNames: ['Taupe'], rating: 4.2, reviewCount: 88, tags: ['crew', 'sweater', 'knit', 'tee'] },
+  { id: 'cargo-pant', name: 'Cargo Pant', price: 2990, cat: 'bottoms', shape: 'trouser', bg: 'var(--taupe-4)', mark: '#EFE9DC', badge: null, sizes: ['S', 'M', 'L', 'XL'], oos: ['S'], colors: ['#B9AF9C', '#141311'], colorNames: ['Sand', 'Black'], rating: 4.6, reviewCount: 62, tags: ['cargo', 'pant', 'trouser', 'bottoms', 'utility'] },
+  { id: 'essential-crop', name: 'Essential Crop Tee', price: 1390, cat: 'tees', shape: 'tee', bg: 'var(--taupe-3)', mark: '#141311', badge: null, sizes: ['XS', 'S', 'M', 'L'], oos: [], colors: ['#141311'], colorNames: ['Black'], rating: 4.5, reviewCount: 97, tags: ['tee', 'crop', 't-shirt', 'cotton'] },
+  { id: 'utility-shirt', name: 'Utility Shirt', price: 2690, cat: 'outerwear', shape: 'shirt', bg: 'var(--taupe-6)', mark: '#EFE9DC', badge: 'soon', sizes: ['S', 'M', 'L', 'XL'], oos: [], colors: ['#D2C6AE', '#141311'], colorNames: ['Clay', 'Black'], rating: 0, reviewCount: 0, tags: ['shirt', 'utility', 'outerwear', 'coming soon'] },
+  { id: 'track-pant', name: 'Track Pant', price: 2390, cat: 'bottoms', shape: 'trouser', bg: 'var(--taupe-1)', mark: '#141311', badge: null, sizes: ['XS', 'S', 'M', 'L', 'XL'], oos: [], colors: ['#DED2BE'], colorNames: ['Beige'], rating: 4.1, reviewCount: 44, tags: ['track pant', 'trouser', 'bottoms', 'sport'] },
+]
+
+export const BADGES = {
+  new: { label: 'New', className: 'badge-new' },
+  low: { label: 'Low Stock', className: 'badge-low' },
+  soon: { label: 'Coming Soon', className: 'badge-soon' },
+}
