@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { announce } from '../utils/announce.js'
 
 const WishlistContext = createContext(null)
@@ -27,11 +27,9 @@ export function WishlistProvider({ children }) {
     }
   }, [wishlist])
 
-  function isWished(id) {
-    return wishlist.has(id)
-  }
+  const isWished = useCallback(id => wishlist.has(id), [wishlist])
 
-  function toggleWishlist(id, name) {
+  const toggleWishlist = useCallback((id, name) => {
     setWishlist(prev => {
       const next = new Set(prev)
       if (next.has(id)) {
@@ -43,10 +41,12 @@ export function WishlistProvider({ children }) {
       }
       return next
     })
-  }
+  }, [])
+
+  const value = useMemo(() => ({ wishlist, isWished, toggleWishlist }), [wishlist, isWished, toggleWishlist])
 
   return (
-    <WishlistContext.Provider value={{ wishlist, isWished, toggleWishlist }}>
+    <WishlistContext.Provider value={value}>
       {children}
     </WishlistContext.Provider>
   )

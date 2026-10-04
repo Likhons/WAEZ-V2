@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import GarmentSVG from './GarmentSVG.jsx'
+import StarRating from './StarRating.jsx'
 import { BDT } from '../utils/currency.js'
 import { BADGES } from '../data/products.js'
 import { useWishlist } from '../context/WishlistContext.jsx'
@@ -95,6 +96,7 @@ function ProductCard({ product }) {
       <div className="p-meta">
         <Link className="p-name" to={`/product/${encodeURIComponent(p.id)}`}>{p.name}</Link>
         <div className="p-price">{BDT(p.price)}</div>
+        <StarRating rating={p.rating} reviewCount={p.reviewCount} />
         <div
           className="p-colors"
           aria-label={`Available in ${p.colors.length} color${p.colors.length !== 1 ? 's' : ''}: ${colorLabel}`}

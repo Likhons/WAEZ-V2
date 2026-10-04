@@ -24,7 +24,7 @@ function Checkout() {
 
 function Field({ id, label, type = 'text', required = true, placeholder, autoComplete, value, onChange, onBlur, error, full }) {
   return (
-    <div className={`field${full ? ' full' : ''}`}>
+    <div className={`field${full ? ' full' : ''}${error ? ' has-error' : ''}`}>
       <label htmlFor={id}>{label}</label>
       <input
         type={type}
@@ -148,6 +148,14 @@ function CheckoutForm() {
         <span className="count">{cartLines.length} item{cartLines.length !== 1 ? 's' : ''}</span>
       </div>
 
+      <div className="co-steps" aria-hidden="true">
+        <span className="co-step"><span className="dot"></span>Bag</span>
+        <span className="co-sep">&mdash;</span>
+        <span className="co-step active"><span className="dot"></span>Checkout</span>
+        <span className="co-sep">&mdash;</span>
+        <span className="co-step"><span className="dot"></span>Confirmation</span>
+      </div>
+
       <div className="checkout-layout">
         <form ref={formRef} onSubmit={handleSubmit} noValidate>
           <div className={`checkout-error${errorBannerVisible ? ' show' : ''}`} role="alert">{errorBannerText}</div>
@@ -219,7 +227,7 @@ function CheckoutForm() {
           {cartLines.map((l, idx) => (
             <div className="co-line-item" key={idx}>
               <div className="thumb" style={{ background: l.product.bg }}>
-                <GarmentSVG shape={l.product.shape} color="#141311" />
+                <GarmentSVG shape={l.product.shape} color={l.product.colors[l.item.color]} />
               </div>
               <div className="info">
                 <div className="n">{l.product.name}</div>
@@ -229,7 +237,7 @@ function CheckoutForm() {
             </div>
           ))}
           <div className="summary-row" style={{ marginTop: '14px' }}><span>Subtotal</span><span>{BDT(subtotal)}</span></div>
-          <div className="summary-row"><span>Shipping</span><span>{shipping === 0 ? 'Free' : BDT(shipping)}</span></div>
+          <div className="summary-row"><span>Shipping</span><span className={shipping === 0 ? 'free' : ''}>{shipping === 0 ? 'Free' : BDT(shipping)}</span></div>
           <div className="summary-row total"><span>Total</span><span>{BDT(total)}</span></div>
         </div>
       </div>

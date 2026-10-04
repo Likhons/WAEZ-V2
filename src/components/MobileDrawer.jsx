@@ -73,6 +73,7 @@ function MobileDrawer({ isOpen, onClose, onOpenSearch }) {
         aria-modal="true"
         aria-label="Site menu"
         aria-hidden={!isOpen}
+        inert={!isOpen}
       >
         <div className="mobile-drawer-head">
           <span className="wordmark">WAEZ</span>
@@ -107,16 +108,16 @@ function MobileDrawer({ isOpen, onClose, onOpenSearch }) {
         </nav>
 
         <div className="sub">
-          <a
-            href="#"
-            onClick={(e) => {
-              e.preventDefault()
+          <button
+            type="button"
+            aria-haspopup="dialog"
+            onClick={() => {
               onClose()
               onOpenSearch()
             }}
           >
             Search
-          </a>
+          </button>
 
           <Link to="/checkout" onClick={onClose}>
             Account

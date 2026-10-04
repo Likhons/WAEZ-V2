@@ -37,6 +37,15 @@ function Header() {
     setIsDrawerOpen(false)
   }, [location])
 
+  // Close the drawer (and release the scroll lock) if the viewport grows
+  // past the breakpoint where the burger is hidden.
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 1081px)')
+    const handleChange = e => { if (e.matches) setIsDrawerOpen(false) }
+    mq.addEventListener('change', handleChange)
+    return () => mq.removeEventListener('change', handleChange)
+  }, [])
+
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false
@@ -76,7 +85,7 @@ function Header() {
           <div className="nav-right">
             <button
               type="button"
-              className="icon-link acct-txt"
+              className="icon-link"
               aria-haspopup="dialog"
               onClick={() => setIsSearchOpen(true)}
             >

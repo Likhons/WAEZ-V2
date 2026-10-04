@@ -1,19 +1,17 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useCallback, useContext, useMemo, useState } from 'react'
 
 const QuickViewContext = createContext(null)
 
 export function QuickViewProvider({ children }) {
   const [product, setProduct] = useState(null)
 
-  function openQuickView(p) {
-    setProduct(p)
-  }
-  function closeQuickView() {
-    setProduct(null)
-  }
+  const openQuickView = useCallback(p => setProduct(p), [])
+  const closeQuickView = useCallback(() => setProduct(null), [])
+
+  const value = useMemo(() => ({ product, openQuickView, closeQuickView }), [product, openQuickView, closeQuickView])
 
   return (
-    <QuickViewContext.Provider value={{ product, openQuickView, closeQuickView }}>
+    <QuickViewContext.Provider value={value}>
       {children}
     </QuickViewContext.Provider>
   )

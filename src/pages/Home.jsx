@@ -14,12 +14,6 @@ const CATEGORY_TILES = [
   { key: 'new', label: 'New In', shape: 'hoodie', bg: 'var(--taupe-2)' },
 ]
 
-const sectionHeadingStyle = {
-  fontSize: '34px',
-  fontFamily: "'Space Grotesk', sans-serif",
-  fontWeight: 700,
-}
-
 const stripStyle = { borderBottom: '1px solid var(--line)' }
 
 function Home() {
@@ -30,7 +24,10 @@ function Home() {
           <div className="eyebrow">WAEZ / Drop 01</div>
           <h1>WEAR YOUR<br />WAY.</h1>
           <p>Modern essentials designed for movement, confidence and everyday expression.</p>
-          <Link to="/shop?cat=new" className="btn">Shop The Drop</Link>
+          <div className="hero-actions">
+            <Link to="/shop?cat=new" className="btn">Shop The Drop</Link>
+            <Link to="/shop" className="btn ghost">Shop All</Link>
+          </div>
         </div>
         <div className="hero-right">
           <div className="hero-frame">
@@ -57,7 +54,7 @@ function Home() {
 
       <section className="wrap home-section" aria-labelledby="categoryHeading">
         <div className="page-strip" style={stripStyle}>
-          <h2 id="categoryHeading" style={sectionHeadingStyle}>Shop By Category</h2>
+          <h2 id="categoryHeading" className="section-title">Shop By Category</h2>
           <span className="count">4 Collections</span>
         </div>
         <div className="category-grid">
@@ -77,7 +74,7 @@ function Home() {
 
       <section className="wrap home-section" aria-labelledby="featuredHeading">
         <div className="page-strip" style={stripStyle}>
-          <h2 id="featuredHeading" style={sectionHeadingStyle}>Featured Products</h2>
+          <h2 id="featuredHeading" className="section-title">Featured Products</h2>
           <Link to="/shop" className="count view-all">View All</Link>
         </div>
         <div style={{ marginTop: '32px' }}>

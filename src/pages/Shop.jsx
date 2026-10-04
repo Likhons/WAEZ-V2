@@ -102,6 +102,12 @@ function Shop() {
     matchesPrice(p, selectedPrices) &&
     matchesSearchQuery(p, searchQuery)
   )
+  // Derived, read-only counts per category (ignores other active filters,
+  // mirroring how the category list itself works) — display only.
+  const categoryCounts = CATEGORIES.map(c => ({
+    ...c,
+    count: PRODUCTS.filter(p => matchesCategory(p, c.key)).length,
+  }))
   if (sort === 'price-asc') {
     filteredList = [...filteredList].sort((a, b) => a.price - b.price)
   } else if (sort === 'price-desc') {
@@ -150,7 +156,7 @@ function Shop() {
           <div className="filter-group">
             <h4 id="catLabel">Category</h4>
             <div role="group" aria-labelledby="catLabel">
-              {CATEGORIES.map(c => (
+              {categoryCounts.map(c => (
                 <button
                   key={c.key}
                   type="button"
@@ -159,6 +165,7 @@ function Shop() {
                   onClick={() => setCat(c.key)}
                 >
                   <span>{c.label}</span>
+                  <span className="n" aria-hidden="true">{c.count}</span>
                 </button>
               ))}
             </div>

@@ -4,10 +4,11 @@ import GarmentSVG from '../components/GarmentSVG.jsx'
 import StarRating from '../components/StarRating.jsx'
 import EmptyState from '../components/EmptyState.jsx'
 import ProductGrid from '../components/ProductGrid.jsx'
-import { PRODUCTS } from '../data/products.js'
+import { PRODUCTS, BADGES } from '../data/products.js'
 import { BDT } from '../utils/currency.js'
 import { fakeFetch } from '../utils/fakeFetch.js'
 import { useCart } from '../context/CartContext.jsx'
+import { useWishlist } from '../context/WishlistContext.jsx'
 import { announce } from '../utils/announce.js'
 
 function ProductDetails() {
@@ -41,6 +42,9 @@ function ProductDetailsContent({ product: p }) {
   const [justAdded, setJustAdded] = useState(false)
   const [addMsg, setAddMsg] = useState('')
   const { addToCart, openCartDrawer } = useCart()
+  const { isWished, toggleWishlist } = useWishlist()
+  const wished = isWished(p.id)
+  const badge = BADGES[p.badge]
 
   const related = PRODUCTS.filter(x => x.cat === p.cat && x.id !== p.id).slice(0, 4)
 
@@ -85,13 +89,14 @@ function ProductDetailsContent({ product: p }) {
       <div className="wrap">
         <div className="pdp">
           <div className="pdp-gallery">
-            <div className="shot"><GarmentSVG shape={p.shape} color="#141311" /></div>
-            <div className="shot"><GarmentSVG shape={p.shape} color="#7A756A" /></div>
+            <div className="shot"><GarmentSVG shape={p.shape} color={p.mark} /></div>
+            <div className="shot"><GarmentSVG shape={p.shape} color={p.colors[selectedColor]} /></div>
           </div>
           <div className="pdp-info">
             <nav className="crumbs" aria-label="Breadcrumb">
               <Link to="/shop">Shop</Link> / {p.cat} / {p.name}
             </nav>
+            {badge && <span className={`pdp-badge ${badge.className}`}>{badge.label}</span>}
             <h1>{p.name}</h1>
             <div className="pdp-price">{BDT(p.price)}</div>
 
@@ -158,6 +163,15 @@ function ProductDetailsContent({ product: p }) {
                 <span className="btn-label">
                   {!selectedSize ? 'Out Of Stock' : justAdded ? 'Added ✓' : 'Add To Bag'}
                 </span>
+              </button>
+              <button
+                type="button"
+                className="pdp-wishlist-btn"
+                aria-pressed={wished}
+                aria-label={wished ? `Remove ${p.name} from wishlist` : `Add ${p.name} to wishlist`}
+                onClick={() => toggleWishlist(p.id, p.name)}
+              >
+                <span aria-hidden="true">{wished ? '♥' : '♡'}</span>
               </button>
             </div>
             <p className="pdp-add-msg" role="status" aria-live="polite">{addMsg}</p>

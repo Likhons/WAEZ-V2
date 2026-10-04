@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import GarmentSVG from './GarmentSVG.jsx'
 import { BDT } from '../utils/currency.js'
@@ -92,10 +92,14 @@ function SearchModal({ isOpen, onClose }) {
     navigate(`/shop?search=${encodeURIComponent(trimmed)}`)
   }
 
+  const trimmedDebounced = debouncedQuery.trim()
+  const results = useMemo(
+    () => (trimmedDebounced ? searchProducts(trimmedDebounced) : []),
+    [trimmedDebounced]
+  )
+
   if (!isMounted) return null
 
-  const trimmedDebounced = debouncedQuery.trim()
-  const results = trimmedDebounced ? searchProducts(trimmedDebounced) : []
   const shown = results.slice(0, RESULTS_LIMIT)
 
   return (
@@ -109,6 +113,10 @@ function SearchModal({ isOpen, onClose }) {
         aria-label="Search products"
       >
         <form className="search-head" onSubmit={handleSubmit}>
+          <svg className="search-icon" width="17" height="17" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+            <circle cx="9" cy="9" r="6.5" fill="none" stroke="currentColor" strokeWidth="1.4" />
+            <line x1="13.6" y1="13.6" x2="18" y2="18" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+          </svg>
           <label className="visually-hidden" htmlFor="searchInput">Search products</label>
           <input
             type="text"

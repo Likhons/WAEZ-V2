@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { PRODUCTS } from '../data/products.js'
 import { announce } from '../utils/announce.js'
 
@@ -28,14 +28,14 @@ export function CartProvider({ children }) {
     }
   }, [cart])
 
-  const cartLines = cart
-    .map(item => ({ item, product: PRODUCTS.find(p => p.id === item.id) }))
-    .filter(l => l.product)
+  const cartLines = useMemo(
+    () => cart.map(item => ({ item, product: PRODUCTS.find(p => p.id === item.id) })).filter(l => l.product),
+    [cart]
+  )
+  const itemCount = useMemo(() => cart.reduce((s, i) => s + i.qty, 0), [cart])
+  const subtotal = useMemo(() => cartLines.reduce((s, l) => s + l.product.price * l.item.qty, 0), [cartLines])
 
-  const itemCount = cart.reduce((s, i) => s + i.qty, 0)
-  const subtotal = cartLines.reduce((s, l) => s + l.product.price * l.item.qty, 0)
-
-  function addToCart(id, size, qty, color = 0) {
+  const addToCart = useCallback((id, size, qty, color = 0) => {
     setCart(prev => {
       const existingIdx = prev.findIndex(i => i.id === id && i.size === size && (i.color ?? 0) === color)
       if (existingIdx !== -1) {
@@ -45,33 +45,31 @@ export function CartProvider({ children }) {
       }
       return [...prev, { id, size, qty: Math.min(9, qty), color }]
     })
-  }
+  }, [])
 
-  function incrementItem(idx) {
+  const incrementItem = useCallback(idx => {
     setCart(prev => prev.map((i, n) => (n === idx ? { ...i, qty: Math.min(9, i.qty + 1) } : i)))
-  }
-  function decrementItem(idx) {
+  }, [])
+  const decrementItem = useCallback(idx => {
     setCart(prev => prev.map((i, n) => (n === idx ? { ...i, qty: Math.max(1, i.qty - 1) } : i)))
-  }
-  function removeItem(idx) {
+  }, [])
+  const removeItem = useCallback(idx => {
     setCart(prev => prev.filter((_, n) => n !== idx))
     announce('Item removed from bag')
-  }
-  function clearCart() {
-    setCart([])
-  }
+  }, [])
+  const clearCart = useCallback(() => setCart([]), [])
 
-  function openCartDrawer() { setIsDrawerOpen(true) }
-  function closeCartDrawer() { setIsDrawerOpen(false) }
+  const openCartDrawer = useCallback(() => setIsDrawerOpen(true), [])
+  const closeCartDrawer = useCallback(() => setIsDrawerOpen(false), [])
+
+  const value = useMemo(() => ({
+    cart, cartLines, itemCount, subtotal,
+    addToCart, incrementItem, decrementItem, removeItem, clearCart,
+    isDrawerOpen, openCartDrawer, closeCartDrawer,
+  }), [cart, cartLines, itemCount, subtotal, isDrawerOpen, addToCart, incrementItem, decrementItem, removeItem, clearCart, openCartDrawer, closeCartDrawer])
 
   return (
-    <CartContext.Provider
-      value={{
-        cart, cartLines, itemCount, subtotal,
-        addToCart, incrementItem, decrementItem, removeItem, clearCart,
-        isDrawerOpen, openCartDrawer, closeCartDrawer,
-      }}
-    >
+    <CartContext.Provider value={value}>
       {children}
     </CartContext.Provider>
   )
