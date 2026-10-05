@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import GarmentSVG from '../components/GarmentSVG.jsx'
 import NewsletterForm from '../components/NewsletterForm.jsx'
-import { PRODUCTS } from '../data/products.js'
+import { getProducts } from '../services/productService.js'
 import ProductGrid from '../components/ProductGrid.jsx'
 
 // Home-page-only category tiles. (Not the same as the Shop page's filter
@@ -77,8 +77,11 @@ function Home() {
           <h2 id="featuredHeading" className="section-title">Featured Products</h2>
           <Link to="/shop" className="count view-all">View All</Link>
         </div>
-        <div style={{ marginTop: '32px' }}>
-          <ProductGrid products={PRODUCTS.slice(0, 8)} />
+        <div className="home-products">
+          <ProductGrid products={getProducts().slice(0, 8)} />
+        </div>
+        <div className="section-cta">
+          <Link to="/shop" className="btn ghost">View All Products</Link>
         </div>
       </section>
 

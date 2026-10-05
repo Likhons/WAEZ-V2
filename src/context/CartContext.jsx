@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
-import { PRODUCTS } from '../data/products.js'
+import { getProductById } from '../services/productService.js'
 import { announce } from '../utils/announce.js'
 
 const CartContext = createContext(null)
@@ -29,7 +29,7 @@ export function CartProvider({ children }) {
   }, [cart])
 
   const cartLines = useMemo(
-    () => cart.map(item => ({ item, product: PRODUCTS.find(p => p.id === item.id) })).filter(l => l.product),
+    () => cart.map(item => ({ item, product: getProductById(item.id) })).filter(l => l.product),
     [cart]
   )
   const itemCount = useMemo(() => cart.reduce((s, i) => s + i.qty, 0), [cart])

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import GarmentSVG from './GarmentSVG.jsx'
 import StarRating from './StarRating.jsx'
 import { BDT } from '../utils/currency.js'
-import { BADGES } from '../data/products.js'
+import { getBadge } from '../services/productService.js'
 import { useWishlist } from '../context/WishlistContext.jsx'
 import { useCart } from '../context/CartContext.jsx'
 import { useQuickView } from '../context/QuickViewContext.jsx'
@@ -12,7 +12,7 @@ import { announce } from '../utils/announce.js'
 
 function ProductCard({ product }) {
   const p = product
-  const badge = BADGES[p.badge]
+  const badge = getBadge(p.badge)
   const isComingSoon = p.badge === 'soon'
   const { isWished, toggleWishlist } = useWishlist()
   const { addToCart, openCartDrawer } = useCart()

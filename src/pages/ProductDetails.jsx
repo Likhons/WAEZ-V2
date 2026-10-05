@@ -4,7 +4,7 @@ import GarmentSVG from '../components/GarmentSVG.jsx'
 import StarRating from '../components/StarRating.jsx'
 import EmptyState from '../components/EmptyState.jsx'
 import ProductGrid from '../components/ProductGrid.jsx'
-import { PRODUCTS, BADGES } from '../data/products.js'
+import { getProductById, getBadge, getProductsByCategory } from '../services/productService.js'
 import { BDT } from '../utils/currency.js'
 import { fakeFetch } from '../utils/fakeFetch.js'
 import { useCart } from '../context/CartContext.jsx'
@@ -13,7 +13,7 @@ import { announce } from '../utils/announce.js'
 
 function ProductDetails() {
   const { id } = useParams()
-  const p = PRODUCTS.find(x => x.id === id)
+  const p = getProductById(id)
 
   if (!p) {
     return (
@@ -44,9 +44,9 @@ function ProductDetailsContent({ product: p }) {
   const { addToCart, openCartDrawer } = useCart()
   const { isWished, toggleWishlist } = useWishlist()
   const wished = isWished(p.id)
-  const badge = BADGES[p.badge]
+  const badge = getBadge(p.badge)
 
-  const related = PRODUCTS.filter(x => x.cat === p.cat && x.id !== p.id).slice(0, 4)
+  const related = getProductsByCategory(p.cat).filter(x => x.id !== p.id).slice(0, 4)
 
   function toggleAccordion(itemId) {
     setOpenAccordions(prev => {

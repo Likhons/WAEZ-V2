@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import GarmentSVG from './GarmentSVG.jsx'
 import { BDT } from '../utils/currency.js'
-import { searchProducts } from '../utils/search.js'
+import { searchProducts } from '../services/productService.js'
 import { lockScroll, unlockScroll } from '../utils/scrollLock.js'
 
 const RESULTS_LIMIT = 8

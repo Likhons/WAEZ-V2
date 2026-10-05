@@ -3,9 +3,9 @@ import { useSearchParams } from 'react-router-dom'
 import ProductGrid from '../components/ProductGrid.jsx'
 import ProductGridSkeleton from '../components/ProductGridSkeleton.jsx'
 import EmptyState from '../components/EmptyState.jsx'
-import { PRODUCTS } from '../data/products.js'
+import { getProducts } from '../services/productService.js'
 import { fakeFetch } from '../utils/fakeFetch.js'
-import { matchesSearchQuery } from '../utils/search.js'
+import { matchesSearchQuery, matchesCategory } from '../utils/search.js'
 
 const CATEGORIES = [
   { key: 'all', label: 'All Products' },
@@ -22,13 +22,7 @@ const PRICE_OPTIONS = [
   { key: 'over3000', label: 'Over BDT 3,000' },
 ]
 
-function matchesCategory(p, cat) {
-  if (cat === 'all') return true
-  if (cat === 'new') return p.badge === 'new'
-  if (cat === 'shirts') return p.shape === 'shirt'
-  if (cat === 'outerwear') return p.cat === 'outerwear' && p.shape !== 'shirt'
-  return p.cat === cat
-}
+
 function matchesSize(p, selectedSizes) {
   if (!selectedSizes.size) return true
   return [...selectedSizes].some(s => p.sizes.includes(s) && !p.oos.includes(s))
@@ -96,7 +90,8 @@ function Shop() {
     setSearchParams({}, { replace: true })
   }
 
-  let filteredList = PRODUCTS.filter(p =>
+  const allProducts = getProducts()
+  let filteredList = allProducts.filter(p =>
     matchesCategory(p, cat) &&
     matchesSize(p, selectedSizes) &&
     matchesPrice(p, selectedPrices) &&
@@ -106,7 +101,7 @@ function Shop() {
   // mirroring how the category list itself works) — display only.
   const categoryCounts = CATEGORIES.map(c => ({
     ...c,
-    count: PRODUCTS.filter(p => matchesCategory(p, c.key)).length,
+    count: allProducts.filter(p => matchesCategory(p, c.key)).length,
   }))
   if (sort === 'price-asc') {
     filteredList = [...filteredList].sort((a, b) => a.price - b.price)
@@ -114,7 +109,7 @@ function Shop() {
     filteredList = [...filteredList].sort((a, b) => b.price - a.price)
   } else if (sort === 'newest') {
     filteredList = filteredList
-      .map(p => ({ p, i: PRODUCTS.indexOf(p) }))
+      .map(p => ({ p, i: allProducts.indexOf(p) }))
       .sort((a, b) => {
         const an = a.p.badge === 'new' ? 0 : 1
         const bn = b.p.badge === 'new' ? 0 : 1

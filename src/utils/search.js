@@ -1,5 +1,3 @@
-import { PRODUCTS } from '../data/products.js'
-
 export function matchesSearchQuery(p, query) {
   const q = query.trim().toLowerCase()
   if (!q) return true
@@ -10,7 +8,10 @@ export function matchesSearchQuery(p, query) {
   return false
 }
 
-export function searchProducts(query) {
-  if (!query.trim()) return []
-  return PRODUCTS.filter(p => matchesSearchQuery(p, query))
+export function matchesCategory(p, cat) {
+  if (cat === 'all') return true
+  if (cat === 'new') return p.badge === 'new'
+  if (cat === 'shirts') return p.shape === 'shirt'
+  if (cat === 'outerwear') return p.cat === 'outerwear' && p.shape !== 'shirt'
+  return p.cat === cat
 }
